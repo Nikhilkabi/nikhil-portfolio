@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(node -e \"require\\('next'\\)\")",
+      "Bash(npx next:*)",
+      "Bash(cmd /c \"tasklist /FI \\\\\"PID eq 18768\\\\\"\")",
+      "Bash(powershell -Command \"Get-WmiObject Win32_Process -Filter 'ProcessId=18768' | Select-Object CommandLine\")"
+    ]
+  }
+}
