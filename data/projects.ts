@@ -7,6 +7,7 @@ export interface Project {
   link?: string;
   linkLabel?: string;
   github?: string;
+  image?: string;
   wip?: boolean;
 }
 
@@ -27,6 +28,16 @@ export const projects: Project[] = [
     description: 'Bought the product. Found ten breaks in the B2C journey. Mapped the fix.',
     tags: ['Growth Marketing', 'Product Audit', 'CRO', 'Competitive Analysis', '30/60/90 Plan'],
     link: '/work/resolute-ai',
+    linkLabel: 'View Case Study',
+  },
+  {
+    id: 'gmail-ai-classifier',
+    title: 'Gmail AI Classifier',
+    label: 'Built for myself. Zero inbox noise since.',
+    description: 'Every email read, classified, and labelled. No manual sorting, ever.',
+    tags: ['N8N', 'Google Gemini', 'AI Automation', 'Gmail API', 'Workflow Design'],
+    image: '/gmail-classifier.png',
+    link: '/work/gmail-classifier',
     linkLabel: 'View Case Study',
   },
 ];

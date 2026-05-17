@@ -34,6 +34,21 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               </div>
             )}
 
+            {project.image && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={project.image}
+                alt={`${project.title} preview`}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  maxWidth: '580px',
+                  border: '1px solid #E0DCD5',
+                  marginBottom: '1.5rem',
+                }}
+              />
+            )}
+
             {(project.link || project.github) && (
               <div className="p-links">
                 {project.link && (
