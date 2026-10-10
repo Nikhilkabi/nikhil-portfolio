@@ -1,14 +1,22 @@
+export type ProjectLink = {
+  href: string;
+  label: string;
+  kind: 'download' | 'page' | 'external';
+};
+
+export type ProjectVisual =
+  | { kind: 'image'; src: string }
+  | { kind: 'audit' }
+  | { kind: 'bars' };
+
 export interface Project {
   id: string;
   title: string;
   label: string;
   description: string;
   tags: string[];
-  link?: string;
-  linkLabel?: string;
-  github?: string;
-  image?: string;
-  wip?: boolean;
+  visual: ProjectVisual;
+  link?: ProjectLink;
 }
 
 export const projects: Project[] = [
@@ -18,8 +26,12 @@ export const projects: Project[] = [
     label: 'Built in Excel. No subscriptions. No apps. Just works.',
     description: 'Tracks income, expenses, and budget vs. actuals in real time. One file, fully automated. Log a transaction, and the dashboard updates itself.',
     tags: ['Excel / M365', 'Named Ranges', 'SUMPRODUCT', 'INDEX / MATCH', 'Dynamic Dashboard', 'Data Validation'],
-    link: '/personal-expense-tracker.xlsx',
-    linkLabel: 'Download File',
+    visual: { kind: 'bars' },
+    link: {
+      href: '/personal-expense-tracker.xlsx',
+      label: 'Download File',
+      kind: 'download',
+    },
   },
   {
     id: 'resolute-ai',
@@ -27,8 +39,12 @@ export const projects: Project[] = [
     label: 'Candidate assignment. First-hand product audit.',
     description: 'Bought the product. Found ten breaks in the B2C journey. Mapped the fix.',
     tags: ['Growth Marketing', 'Product Audit', 'CRO', 'Competitive Analysis', '30/60/90 Plan'],
-    link: '/work/resolute-ai',
-    linkLabel: 'View Case Study',
+    visual: { kind: 'audit' },
+    link: {
+      href: '/work/resolute-ai',
+      label: 'View Case Study',
+      kind: 'page',
+    },
   },
   {
     id: 'gmail-ai-classifier',
@@ -36,8 +52,11 @@ export const projects: Project[] = [
     label: 'Built for myself. Zero inbox noise since.',
     description: 'Every email read, classified, and labelled. No manual sorting, ever.',
     tags: ['N8N', 'Google Gemini', 'AI Automation', 'Gmail API', 'Workflow Design'],
-    image: '/gmail-classifier.png',
-    link: '/work/gmail-classifier',
-    linkLabel: 'View Case Study',
+    visual: { kind: 'image', src: '/gmail-classifier.png' },
+    link: {
+      href: '/work/gmail-classifier',
+      label: 'View Case Study',
+      kind: 'page',
+    },
   },
 ];

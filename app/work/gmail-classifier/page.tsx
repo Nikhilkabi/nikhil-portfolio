@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
-import { Cursor } from '@/components/Cursor';
 import { Nav } from '@/components/Nav';
 import { FadeUp } from '@/components/FadeUp';
-import { SectionLabel } from '@/components/SectionLabel';
 
 export const metadata: Metadata = {
   title: 'Gmail AI Classifier — Nikhil K Abi',
@@ -25,6 +23,10 @@ const SECTIONS = [
       'Built an n8n automation workflow powered by Google Gemini. Every incoming email is read, classified, and routed to the correct Gmail label automatically, Job Alerts, Newsletters, Subscriptions, or Monitoring.',
     recommendation:
       'No rules. No filters. Actual AI classification.',
+    figure: {
+      src: '/gmail-classifier.png',
+      alt: 'n8n Gmail AI Classifier workflow',
+    },
   },
   {
     id: '03',
@@ -38,82 +40,58 @@ const SECTIONS = [
 export default function GmailClassifierCaseStudy() {
   return (
     <>
-      <Cursor />
       <Nav />
       <main>
-        <section style={{ paddingBlock: 'clamp(6rem, 10vw, 9rem)' }}>
+        <section className="cs">
           <div className="w">
-
-            {/* Back link */}
             <FadeUp>
-              <a href="/#projects" className="p-link" style={{ display: 'inline-flex', marginBottom: '2.5rem' }}>
-                <span className="p-arrow">←</span> All Projects
-              </a>
+              <a href="/#projects" className="back">All work</a>
             </FadeUp>
 
             <FadeUp delay={0.04}>
-              <SectionLabel>Case Study</SectionLabel>
+              <h1 className="cs-title">Gmail AI Classifier</h1>
+              <p className="cs-kicker">Built for myself. Zero inbox noise since.</p>
             </FadeUp>
 
-            {/* Heading */}
-            <FadeUp delay={0.08}>
-              <h1 className="p-title" style={{ fontSize: 'clamp(2.25rem, 6vw, 4.5rem)', marginBottom: '0.5rem' }}>
-                Gmail AI Classifier
-              </h1>
-            </FadeUp>
-
-            {/* Subheader */}
-            <FadeUp delay={0.12}>
-              <p className="p-label" style={{ marginBottom: '3rem' }}>
-                Built for myself. Zero inbox noise since.
-              </p>
-            </FadeUp>
-
-            {/* Sections */}
-            {SECTIONS.map((item, i) => (
-              <FadeUp key={item.id} delay={0.16 + i * 0.1}>
-                <div style={{ marginBottom: '2rem' }}>
-                  <p style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '.58rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '.14em',
-                    color: '#7A7570',
-                    marginBottom: '.5rem',
-                  }}>
-                    {item.id} — {item.label}
-                  </p>
-                  <blockquote className="ab-pull" style={{ marginTop: 0 }}>
-                    {item.finding}
-                  </blockquote>
-                  {item.recommendation && (
-                    <p className="p-desc" style={{ marginTop: '.75rem', marginBottom: 0 }}>
-                      {item.recommendation}
-                    </p>
-                  )}
+            <FadeUp delay={0.1}>
+              <dl className="cs-meta">
+                <div>
+                  <dt>Built for</dt>
+                  <dd>Personal use</dd>
                 </div>
+                <div>
+                  <dt>Stack</dt>
+                  <dd>n8n · Google Gemini</dd>
+                </div>
+                <div>
+                  <dt>Outcome</dt>
+                  <dd>Zero manual sorting</dd>
+                </div>
+              </dl>
+            </FadeUp>
 
-                {/* Workflow image — placed after The Solution section */}
-                {item.id === '02' && (
-                  <FadeUp delay={0.36}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="/gmail-classifier.png"
-                      alt="n8n Gmail AI Classifier workflow"
-                      style={{
-                        display: 'block',
-                        width: '100%',
-                        maxWidth: '640px',
-                        border: '1px solid #E0DCD5',
-                        marginTop: '1.5rem',
-                        marginBottom: '1rem',
-                      }}
-                    />
-                  </FadeUp>
-                )}
-              </FadeUp>
-            ))}
-
+            <div className="cs-stack">
+              {SECTIONS.map((item, i) => (
+                <FadeUp key={item.id} delay={0.16 + i * 0.08}>
+                  <article className="cs-card">
+                    <span className="cs-num">{item.id}</span>
+                    <div>
+                      <h2>{item.label}</h2>
+                      <blockquote>{item.finding}</blockquote>
+                      {item.recommendation && (
+                        <p className="cs-note">{item.recommendation}</p>
+                      )}
+                      {'figure' in item && item.figure && (
+                        <figure className="cs-figure">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={item.figure.src} alt={item.figure.alt} />
+                        </figure>
+                      )}
+                    </div>
+                  </article>
+                </FadeUp>
+              ))}
+            </div>
           </div>
         </section>
       </main>

@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
-import { Cursor } from '@/components/Cursor';
 import { Nav } from '@/components/Nav';
 import { FadeUp } from '@/components/FadeUp';
-import { SectionLabel } from '@/components/SectionLabel';
 
 export const metadata: Metadata = {
   title: 'Resolute AI — Nikhil K Abi',
@@ -39,102 +37,68 @@ const CALLOUTS = [
 export default function ResoluteAICaseStudy() {
   return (
     <>
-      <Cursor />
       <Nav />
       <main>
-        <section style={{ paddingBlock: 'clamp(6rem, 10vw, 9rem)' }}>
+        <section className="cs">
           <div className="w">
-
-            {/* Back link */}
             <FadeUp>
-              <a href="/#projects" className="p-link" style={{ display: 'inline-flex', marginBottom: '2.5rem' }}>
-                <span className="p-arrow">←</span> All Projects
-              </a>
+              <a href="/#projects" className="back">All work</a>
             </FadeUp>
 
             <FadeUp delay={0.04}>
-              <SectionLabel>Case Study</SectionLabel>
-            </FadeUp>
-
-            {/* Heading */}
-            <FadeUp delay={0.08}>
-              <h1 className="p-title" style={{ fontSize: 'clamp(2.25rem, 6vw, 4.5rem)', marginBottom: '0.5rem' }}>
-                Resolute AI
-              </h1>
-            </FadeUp>
-
-            {/* Role context */}
-            <FadeUp delay={0.12}>
-              <p className="p-label" style={{ marginBottom: '1.5rem' }}>
-                Growth Marketing Associate — Candidate Assignment · March 2026
-              </p>
-            </FadeUp>
-
-            {/* Context line */}
-            <FadeUp delay={0.14}>
-              <p className="p-desc" style={{ maxWidth: '640px', marginBottom: '1.5rem' }}>
+              <h1 className="cs-title">Resolute AI</h1>
+              <p className="cs-kicker">Growth Marketing Associate — Candidate Assignment · March 2026</p>
+              <p className="cs-lede">
                 Resolute tests your blood, has a doctor review the results, and delivers a personalised supplement plan.
               </p>
-            </FadeUp>
-
-            {/* Intro */}
-            <FadeUp delay={0.16}>
-              <p className="p-desc" style={{ maxWidth: '640px', marginBottom: '3rem' }}>
+              <p className="cs-lede">
                 I bought the product, used it, and found where it breaks.
               </p>
             </FadeUp>
 
-            {/* Key findings label */}
-            <FadeUp delay={0.2}>
-              <p style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '.58rem',
-                textTransform: 'uppercase',
-                letterSpacing: '.18em',
-                color: '#D4592A',
-                marginBottom: '1.75rem',
-              }}>
-                Key Findings
-              </p>
+            <FadeUp delay={0.1}>
+              <dl className="cs-meta">
+                <div>
+                  <dt>Context</dt>
+                  <dd>Candidate assignment</dd>
+                </div>
+                <div>
+                  <dt>Date</dt>
+                  <dd>March 2026</dd>
+                </div>
+                <div>
+                  <dt>Focus</dt>
+                  <dd>Product audit · CRO</dd>
+                </div>
+              </dl>
             </FadeUp>
 
-            {/* Callouts */}
-            {CALLOUTS.map((item, i) => (
-              <FadeUp key={item.id} delay={0.24 + i * 0.1}>
-                <div style={{ marginBottom: '2rem' }}>
-                  <p style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '.58rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '.14em',
-                    color: '#7A7570',
-                    marginBottom: '.5rem',
-                  }}>
-                    {item.id} — {item.severity}
-                  </p>
-                  <blockquote className="ab-pull" style={{ marginTop: 0 }}>
-                    {item.finding}
-                  </blockquote>
-                  <p className="p-desc" style={{ marginTop: '.75rem', marginBottom: 0 }}>
-                    {item.recommendation}
-                  </p>
-                </div>
-              </FadeUp>
-            ))}
+            <FadeUp delay={0.14}>
+              <p className="cs-label">Key Findings</p>
+            </FadeUp>
 
-            {/* Download button */}
-            <FadeUp delay={0.56}>
-              <div style={{ marginTop: '3rem' }}>
-                <a
-                  href="/resolute-assignment.pdf"
-                  download
-                  className="h-cta"
-                >
-                  Download Full Assignment
+            <div className="cs-stack">
+              {CALLOUTS.map((item, i) => (
+                <FadeUp key={item.id} delay={0.18 + i * 0.08}>
+                  <article className="cs-card">
+                    <span className="cs-num">{item.id}</span>
+                    <div>
+                      <h2>{item.severity}</h2>
+                      <blockquote>{item.finding}</blockquote>
+                      <p className="cs-note">{item.recommendation}</p>
+                    </div>
+                  </article>
+                </FadeUp>
+              ))}
+            </div>
+
+            <FadeUp delay={0.46}>
+              <div className="cs-action">
+                <a href="/resolute-assignment.pdf" download className="btn btn-solid">
+                  Download the assignment
                 </a>
               </div>
             </FadeUp>
-
           </div>
         </section>
       </main>

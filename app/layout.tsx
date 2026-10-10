@@ -1,33 +1,25 @@
 import type { Metadata } from 'next';
-import { Cormorant_Garamond, DM_Sans, Space_Mono } from 'next/font/google';
+import { Instrument_Sans, Instrument_Serif } from 'next/font/google';
 import './globals.css';
 
-const cormorant = Cormorant_Garamond({
+const sans = Instrument_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600'],
-  style: ['normal', 'italic'],
-  variable: '--font-cormorant',
+  variable: '--font-sans',
   display: 'swap',
 });
 
-const dmSans = DM_Sans({
+const serif = Instrument_Serif({
   subsets: ['latin'],
-  weight: ['300', '400', '500'],
-  variable: '--font-dm-sans',
-  display: 'swap',
-});
-
-const spaceMono = Space_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: '400',
   style: ['normal', 'italic'],
-  variable: '--font-space-mono',
+  variable: '--font-serif',
   display: 'swap',
 });
 
 export const metadata: Metadata = {
   title: 'Nikhil K Abi — Growth & Marketing Operations',
-  description: 'Nikhil K Abi — Growth & Marketing Operations, Bangalore.',
+  description: 'Nikhil K Abi — growth and marketing operations in Bangalore.',
 };
 
 export default function RootLayout({
@@ -36,11 +28,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${cormorant.variable} ${dmSans.variable} ${spaceMono.variable}`}
-    >
-      <body>{children}</body>
+    <html lang="en" className={`${sans.variable} ${serif.variable}`}>
+      <body>
+        <div className="ambient" aria-hidden="true">
+          <span className="blob blob-a" />
+          <span className="blob blob-b" />
+          <span className="blob blob-c" />
+        </div>
+        {children}
+      </body>
     </html>
   );
 }

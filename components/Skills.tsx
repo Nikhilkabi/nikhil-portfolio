@@ -1,35 +1,37 @@
 'use client';
 
-import { FadeUp } from '@/components/FadeUp';
-import { SectionLabel } from '@/components/SectionLabel';
 import { skillCategories } from '@/data/skills';
+
+const ROWS = [
+  skillCategories.flatMap(cat => cat.skills),
+  ['Growth', 'Marketing Ops', 'RevOps', 'Analytics', 'Automation', 'CRO', 'Bangalore'],
+  skillCategories.map(cat => cat.category),
+];
+
+function Lane({ items, reverse }: { items: string[]; reverse?: boolean }) {
+  const half = [...items, ...items];
+  const loop = [...half, ...half];
+  return (
+    <div className={`lane${reverse ? ' lane-rev' : ''}`}>
+      <div className="lane-track">
+        {loop.map((item, i) => (
+          <span className="chip" key={`${item}-${i}`}>{item}</span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function Skills() {
   return (
-    <section
-      id="skills"
-      aria-label="Skills and tools"
-      style={{ paddingBlock: 'clamp(4.5rem,9vw,8rem)' }}
-    >
-      <div className="w">
-        <FadeUp>
-          <SectionLabel>02 — Skills &amp; Tools</SectionLabel>
-        </FadeUp>
-
-        <div className="sk-grid">
-          {skillCategories.map((cat, i) => (
-            <FadeUp key={cat.category} delay={i * 0.07}>
-              <div className="sk-col">
-                <h3>{cat.category}</h3>
-                <ul>
-                  {cat.skills.map(skill => (
-                    <li key={skill}>{skill}</li>
-                  ))}
-                </ul>
-              </div>
-            </FadeUp>
-          ))}
-        </div>
+    <section id="skills" className="rivers" aria-label="Skills and tools">
+      <ul className="sr-only">
+        {ROWS[0].map(skill => <li key={skill}>{skill}</li>)}
+      </ul>
+      <div className="river-set" aria-hidden="true">
+        {ROWS.map((items, i) => (
+          <Lane key={i} items={items} reverse={i === 1} />
+        ))}
       </div>
     </section>
   );
