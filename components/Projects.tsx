@@ -18,19 +18,26 @@ function ProjectVisual({ visual }: { visual: ProjectVisual }) {
     return (
       <div className="pv">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="pv-img" src={visual.src} alt="" />
+        <img
+          className="pv-img"
+          src={visual.src}
+          alt=""
+          style={visual.position ? { objectPosition: visual.position } : undefined}
+        />
       </div>
     );
   }
 
-  if (visual.kind === 'audit') {
+  if (visual.kind === 'rows') {
     return (
       <div className="pv" aria-hidden="true">
-        <span className="pv-tag">Audit</span>
+        <span className="pv-tag">{visual.tag}</span>
         <div className="pv-rows">
-          <div><i>01</i><b /><em>Visit</em></div>
-          <div><i>02</i><b /><em>Results</em></div>
-          <div className="hot"><i>03</i><b /><em>Upsell</em></div>
+          {visual.rows.map(row => (
+            <div key={row.n} className={row.hot ? 'hot' : undefined}>
+              <i>{row.n}</i><b /><em>{row.label}</em>
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -51,29 +58,69 @@ function ProjectVisual({ visual }: { visual: ProjectVisual }) {
   );
 }
 
+function cardStops(rail: HTMLElement) {
+  const cards = [...rail.querySelectorAll<HTMLElement>('.shot')];
+  const origin = cards[0]?.offsetLeft ?? 0;
+  return cards.map(card => Math.max(0, card.offsetLeft - origin));
+}
+
 export function Projects() {
   const railRef = useRef<HTMLDivElement>(null);
   const [canSlide, setCanSlide] = useState(false);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(true);
 
   useEffect(() => {
     const el = railRef.current;
     if (!el) return;
 
-    const check = () => setCanSlide(el.scrollWidth > el.clientWidth + 8);
-    check();
+    const measure = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      setCanSlide(max > 8);
+      setAtStart(el.scrollLeft <= 8);
+      setAtEnd(el.scrollLeft >= max - 8);
+    };
+    measure();
 
-    const observer = new ResizeObserver(check);
+    const observer = new ResizeObserver(measure);
     observer.observe(el);
-    return () => observer.disconnect();
+    el.addEventListener('scroll', measure, { passive: true });
+    return () => {
+      observer.disconnect();
+      el.removeEventListener('scroll', measure);
+    };
   }, []);
+
+  const slide = (direction: 1 | -1) => {
+    const el = railRef.current;
+    if (!el) return;
+    const places = cardStops(el);
+    const current = el.scrollLeft;
+    const target = direction > 0
+      ? places.find(stop => stop > current + 24)
+      : [...places].reverse().find(stop => stop < current - 24);
+    if (target == null) return;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    el.scrollTo({ left: Math.min(target, el.scrollWidth - el.clientWidth), behavior: reduce ? 'auto' : 'smooth' });
+  };
 
   return (
     <section id="projects" className="block" aria-label="Selected projects">
       <div className="w rail-head">
         <h2>Work</h2>
-        {canSlide && <p>Slide through</p>}
       </div>
-      <div className="rail" ref={railRef}>
+      <div className="rail-frame">
+      {canSlide && !atStart && (
+        <button type="button" className="rail-nav prev" aria-label="Previous project" onClick={() => slide(-1)}>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 L10 13" /></svg>
+        </button>
+      )}
+      {canSlide && !atEnd && (
+        <button type="button" className="rail-nav next" aria-label="Next project" onClick={() => slide(1)}>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 L10 13" /></svg>
+        </button>
+      )}
+      <div className="rail" id="work-rail" ref={railRef}>
         {projects.map(project => {
           const link = project.link ? anchorProps(project.link) : null;
           return (
@@ -101,6 +148,7 @@ export function Projects() {
             </article>
           );
         })}
+      </div>
       </div>
     </section>
   );

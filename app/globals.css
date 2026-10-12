@@ -427,19 +427,48 @@ main, #nav { position: relative; z-index: 2; }
   font-size: clamp(2rem, 4vw, 2.8rem);
   letter-spacing: -.04em;
 }
-.rail-head p { color: rgba(244, 241, 234, .5); font-size: .95rem; }
+.rail-frame { position: relative; }
+.rail-nav {
+  position: absolute;
+  top: calc(.2rem + 115px);
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: #f4f1ea;
+  background: rgba(16, 16, 20, .78);
+  border: 1px solid rgba(255, 255, 255, .22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .3), 0 12px 28px rgba(0, 0, 0, .35);
+  backdrop-filter: blur(16px);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+.rail-nav:hover { background: rgba(255, 255, 255, .16); }
+.rail-nav svg { width: 16px; height: 16px; }
+.rail-nav path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.rail-nav.prev { left: 1.15rem; }
+.rail-nav.next { right: 1.15rem; }
+.rail-nav.next svg { transform: scaleX(-1); }
 .rail {
   display: flex;
   gap: .9rem;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
   padding: .2rem 1rem 1.2rem;
   scrollbar-width: none;
 }
 .rail::-webkit-scrollbar { display: none; }
 .shot {
   flex: 0 0 min(78vw, 520px);
-  scroll-snap-align: start;
   border-radius: 28px;
   padding: .7rem;
   display: flex;
@@ -666,7 +695,7 @@ main, #nav { position: relative; z-index: 2; }
 .cs-action { margin-top: 1.6rem; }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html, .rail { scroll-behavior: auto; }
   .blob, .lane-track, .pv-bars span { animation: none; }
   .pv-bars span { transform: none; }
 }
